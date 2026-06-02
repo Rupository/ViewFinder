@@ -1,5 +1,5 @@
 {
-  "name": "Media Lens",
+  "name": "ViewFinder",
   "description": "Find out how different news outlets report about the same event. Requires access to Google News stories.",
   "version": "0.1.1",
   "manifest_version": 3,
