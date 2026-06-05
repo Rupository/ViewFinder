@@ -8,15 +8,7 @@ const stance_to_colour = {
 }
 
 let loadTimer = null;
-const stories = {};
-
-function getStoryToken() {
-    const path = window.location.pathname
-    const parts = path.split('/stories/')
-    return parts[1].split('?')[0]
-}
-
-const story_token = getStoryToken();
+const stories = [];
 
 function injectIcons(Div, circStance, sqrStance, mediaOutlet) {
     const miniDiv = document.createElement('div')
@@ -43,7 +35,6 @@ function injectIcons(Div, circStance, sqrStance, mediaOutlet) {
     circ.addEventListener('click', (e) => {
         e.stopPropagation() 
         e.preventDefault()
-        //console.log(mediaOutlet)
     })
     miniDiv.appendChild(circ)
 
@@ -65,7 +56,6 @@ function injectIcons(Div, circStance, sqrStance, mediaOutlet) {
     sqr.addEventListener('click', (e) => {
         e.stopPropagation() 
         e.preventDefault()
-        //console.log(mediaOutlet)
         
         chrome.runtime.sendMessage({
             type: 'open-visuals',
@@ -88,24 +78,29 @@ function getStories() {
         if (mainDiv) {
             let title = article.querySelector('h4 a').innerText
             let outlet = mainDiv.querySelector('div').querySelector('a').innerText
-            stories[title] = outlet
+            let url = article.querySelector('h4 a').href
+            stories.push({
+                    "title": title,
+                    "outlet": outlet,
+                    "url": url
+                });
         }
     })
 }
 
 function hideLoadingOverlay() {
-    const overlay = document.getElementById('extension-overlay-root');
-    const cssLink = document.getElementById('extension-css-loader');
+    const overlay = document.getElementById('extension-overlay-root')
+    const cssLink = document.getElementById('extension-css-loader')
 
     if (overlay) {
-        overlay.style.transition = 'opacity 0.5s ease';
-        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.5s ease'
+        overlay.style.opacity = '0'
         
         setTimeout(() => {
             overlay.remove();
-            if (cssLink) cssLink.remove(); // Clean up CSS
-            document.body.style.overflow = 'auto'; // Unlock scrolling
-        }, 500);
+            if (cssLink) cssLink.remove()
+            document.body.style.overflow = 'auto'
+        }, 500)
     }
 }
 
@@ -114,7 +109,6 @@ function processArticles() {
         type: 'get-articles',
         payload: {
             stories: stories,
-            story_token: story_token
         }
     }, (response) => {
 
@@ -135,9 +129,9 @@ function processArticles() {
                     let outlet = mainDiv.querySelector('div').querySelector('a').innerText
                     
                     let articleData = response.data[title] || {}
-                    let hist__est_stance = articleData.historical || "unknown"
-                    let curr__est_stance = articleData.current || "unknown"
-                    injectIcons(mainDiv, curr__est_stance, hist__est_stance, outlet)
+                    let hist_est_stance = articleData.historical || "unknown"
+                    let curr_est_stance = articleData.current || "unknown"
+                    injectIcons(mainDiv, curr_est_stance, hist_est_stance, outlet)
                 }
             })
         } else {
