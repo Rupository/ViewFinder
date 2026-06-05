@@ -17,7 +17,7 @@ chrome.action.onClicked.addListener((tab) => {
 // query server
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'get-articles') {
-    fetch('http://127.0.0.1:5000/api/v0/colour', {
+    fetch('https://viewfinder.medialens.dpdns.org/api/v0/colour', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
