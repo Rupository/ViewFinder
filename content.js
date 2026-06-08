@@ -13,7 +13,7 @@ const stories = [];
 
 chrome.runtime.onMessage.addListener((message) => {
     if (message.type === 'server-running') {
-        const statusText = document.getElementById('overlay-status-text')
+        const statusText = document.getElementById('overlay-status')
         if (statusText) {
             statusText.innerText = message.msg
         }
@@ -146,7 +146,7 @@ function processArticles() {
             })
         } else {
             console.error("API Error:", response ? response.error : "Unknown error")
-            const statusText = document.getElementById('overlay-status-text')
+            const statusText = document.getElementById('overlay-status')
             if (statusText) {
                 statusText.style.color = '#ff5454'
                 statusText.innerText = `${response.error_type || 'Unknown'}: ${response.error || 'Request failed'}`
