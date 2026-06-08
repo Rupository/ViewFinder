@@ -143,7 +143,8 @@ function processArticles() {
                     let curr_est_stance = articleData.current || "unknown"
                     injectIcons(mainDiv, curr_est_stance, hist_est_stance, outlet)
                 }
-            })
+            }) 
+            hideLoadingOverlay()
         } else {
             console.error("API Error:", response ? response.error : "Unknown error")
             const statusText = document.getElementById('overlay-status')
@@ -154,7 +155,6 @@ function processArticles() {
             
             setTimeout(hideLoadingOverlay, 3000)
         }
-        hideLoadingOverlay()
     })
 }
 

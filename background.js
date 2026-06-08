@@ -37,7 +37,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           buffer = chunks.pop()
 
           for (const chunk of chunks) {
-            if (chunk.startsWith('data :')) {
+            if (chunk.startsWith('data: ')) {
               try {
                 const parsed = JSON.parse(chunk.substring(6))
 
