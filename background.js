@@ -17,6 +17,7 @@ chrome.action.onClicked.addListener((tab) => {
 // query server
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'get-articles') {
+    const tabId = sender.tab.id
     fetch('https://viewfinder.medialens.dpdns.org/api/v0/colour', {
         method: 'POST',
         headers: {
@@ -65,7 +66,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
       return true;
   }
-  
   if (message.type === 'open-visuals') {
     const outlet = message.payload.outlet
     const tabId = sender.tab.id
