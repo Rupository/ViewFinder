@@ -23,11 +23,44 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(message.payload)
-      }).then(response => response.json())
-        .then(data => {sendResponse({ success: true, data: data })
-      }).catch(error => {
-        console.error('Error:', error)
-        sendResponse({ success: false, error: error.message })
+      }).then(async response => {
+        const reader = response.body.getReader()
+        const decoder = new TextDecoder('utf-8')
+        let buffer = ''
+
+        while (true){
+          const {done, value} = await reader.read()
+          if (done) break
+
+          buffer += decoder.decode(value, {stream:true})
+          const chunks = buffer.split('\n\n')
+          buffer = chunks.pop()
+
+          for (const chunk of chunks) {
+            if (chunk.startsWith('data :')) {
+              try {
+                const parsed = JSON.parse(chunk.substring(6))
+
+                if (parsed.status === 'running') {
+                  chrome.tabs.sendMessage(tabId, {
+                    type: 'server-running',
+                    msg: parsed.msg
+                  })
+                } else if (parsed.status === 'finished') {
+                  sendResponse({success: true, data: parsed.data})
+                } else if (parsed.status === 'error') {
+                  sendResponse({ success:false, error_type:parsed.error_type, error: parsed.msg})
+                } 
+              } catch (e){
+              console.error('Error parsing SSE stream', e)
+              }
+            }
+          }
+        }
+      }
+    ).catch(error => {
+        console.error('Fetch error.', error)
+        sendResponse({ success: false, error_type:'NetworkError', error: error.message })
       });
 
       return true;

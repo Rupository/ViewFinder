@@ -10,6 +10,16 @@ const stance_to_colour = {
 let loadTimer = null;
 const stories = [];
 
+
+chrome.runtime.onMessage.addListener((message) => {
+    if (message.type === 'server-running') {
+        const statusText = document.getElementById('overlay-status-text')
+        if (statusText) {
+            statusText.innerText = message.msg
+        }
+    }
+})
+
 function injectIcons(Div, circStance, sqrStance, mediaOutlet) {
     const miniDiv = document.createElement('div')
 
@@ -136,6 +146,13 @@ function processArticles() {
             })
         } else {
             console.error("API Error:", response ? response.error : "Unknown error")
+            const statusText = document.getElementById('overlay-status-text')
+            if (statusText) {
+                statusText.style.color = '#ff5454'
+                statusText.innerText = `${response.error_type || 'Unknown'}: ${response.error || 'Request failed'}`
+            }
+            
+            setTimeout(hideLoadingOverlay, 3000)
         }
         hideLoadingOverlay()
     })
