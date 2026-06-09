@@ -25,6 +25,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         },
         body: JSON.stringify(message.payload)
       }).then(async response => {
+        if (!response.ok) {
+          sendResponse({ 
+            success: false, 
+            error_type: 'ServerError', 
+            error: `Communication failed (${response.status})` 
+          })
+          return
+        }
         const reader = response.body.getReader()
         const decoder = new TextDecoder('utf-8')
         let buffer = ''
@@ -49,8 +57,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                   })
                 } else if (parsed.status === 'finished') {
                   sendResponse({success: true, data: parsed.data})
+                  return
                 } else if (parsed.status === 'error') {
                   sendResponse({ success:false, error_type:parsed.error_type, error: parsed.msg})
+                  return
                 } 
               } catch (e){
               console.error('Error parsing SSE stream', e)
