@@ -59,7 +59,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                   sendResponse({success: true, data: parsed.data})
                   return
                 } else if (parsed.status === 'error') {
-                  sendResponse({ success:false, error_type:parsed.error_type, error: parsed.msg})
+                  sendResponse({ success:false, 
+                    error_type:parsed.error_type || 'UnknownError', 
+                    error: parsed.msg || 'Unhandled exception in stream'})
                   return
                 } 
               } catch (e){
