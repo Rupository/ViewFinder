@@ -41,6 +41,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           const {done, value} = await reader.read()
           if (done) break
 
+          const chunk = decoder.decode(value, {stream: true})
+          console.log("Monitoring connection:", chunk)
+          
           buffer += decoder.decode(value, {stream:true})
           const chunks = buffer.split('\n\n')
           buffer = chunks.pop()
@@ -86,7 +89,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         tabId: tabId,
         path: `assets/html/sidepanel.html?outlet=${encodeURIComponent(outlet)}`,
         enabled: true
-    });
+    })
 
     chrome.sidePanel.open({ tabId: tabId })
         .catch((error) => console.error("Error opening panel:", error))
@@ -95,8 +98,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 // sidepanel handling
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.sidePanel.setOptions({ enabled: false });
-});
+  chrome.sidePanel.setOptions({ enabled: false })
+})
 
 async function updatePanelState(tabId) {
   try {
@@ -117,4 +120,4 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete' || changeInfo.url) {
     updatePanelState(tabId);
   }
-});
+})

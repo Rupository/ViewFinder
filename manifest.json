@@ -1,7 +1,7 @@
 {
   "name": "ViewFinder",
   "description": "Find out how different news outlets report about the same event. Requires access to Google News stories.",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "manifest_version": 3,
   "action": {
     "default_title": "Click to Activate",
