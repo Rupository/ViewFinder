@@ -18,6 +18,16 @@ chrome.action.onClicked.addListener((tab) => {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'get-articles') {
     const tabId = sender.tab.id
+
+    const controller = new AbortController()
+    let timeoutId
+    const resetTimeout = () => {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        controller.abort()
+      }, 10000)
+    }
+
     fetch('https://viewfinder.medialens.dpdns.org/api/v0/colour', {
         method: 'POST',
         headers: {
@@ -37,10 +47,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         const decoder = new TextDecoder('utf-8')
         let buffer = ''
 
+        resetTimeout()
         while (true){
           const {done, value} = await reader.read()
-          if (done) break
-
+          if (done) {
+            clearTimeout(timeoutId)
+            break
+          }
           const chunk = decoder.decode(value, {stream: true})
           console.log("Monitoring connection:", chunk)
           
@@ -59,9 +72,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     msg: parsed.msg
                   })
                 } else if (parsed.status === 'finished') {
+                  clearTimeout(timeoutId)
                   sendResponse({success: true, data: parsed.data})
                   return
                 } else if (parsed.status === 'error') {
+                  clearTimeout(timeoutId)
                   sendResponse({ success:false, 
                     error_type:parsed.error_type || 'UnknownError', 
                     error: parsed.msg || 'Unhandled exception in stream'})
@@ -75,11 +90,25 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
       }
     ).catch(error => {
-        console.error('Fetch error.', error)
-        sendResponse({ success: false, error_type:'NetworkError', error: error.message })
-      });
+        clearTimeout(timeoutId)
 
-      return true;
+        if (error.name === 'AbortError') {
+          console.error('Fetch aborted due to 10-second inactivity timeout.')
+          sendResponse({ 
+            success: false, 
+            error_type: 'TimeoutError', 
+            error: 'Disconnected - no ping in last 10 seconds'
+          });
+        } else {
+          console.error('Fetch error.', error)
+          sendResponse({ 
+            success: false, 
+            error_type: 'NetworkError', 
+            error: `Disconnected -  ${error.message}` 
+          })
+        }
+      })
+      return true
   }
   if (message.type === 'open-visuals') {
     const outlet = message.payload.outlet
