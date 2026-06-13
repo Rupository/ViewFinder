@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       clearTimeout(timeoutId)
       timeoutId = setTimeout(() => {
         controller.abort()
-      }, 10000)
+      }, 5000)
     }
 
     fetch('https://viewfinder.medialens.dpdns.org/api/v0/colour', {
@@ -93,11 +93,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         clearTimeout(timeoutId)
 
         if (error.name === 'AbortError') {
-          console.error('Fetch aborted due to 10-second inactivity timeout.')
+          console.error('Fetch aborted due to 5-second inactivity timeout.')
           sendResponse({ 
             success: false, 
             error_type: 'TimeoutError', 
-            error: 'Disconnected - no ping in last 10 seconds'
+            error: 'Disconnected - no ping in last 5 seconds'
           });
         } else {
           console.error('Fetch error.', error)
