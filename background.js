@@ -33,7 +33,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(message.payload)
+        body: JSON.stringify(message.payload),
+        signal: controller.signal
       }).then(async response => {
         if (!response.ok) {
           sendResponse({ 
@@ -54,10 +55,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             clearTimeout(timeoutId)
             break
           }
-          const chunk = decoder.decode(value, {stream: true})
-          console.log("Monitoring connection:", chunk)
+
+          resetTimeout()
+          const data_chunk = decoder.decode(value, {stream: true})
+          console.log("Monitoring connection:", data_chunk)
           
-          buffer += decoder.decode(value, {stream:true})
+          buffer += data_chunk
           const chunks = buffer.split('\n\n')
           buffer = chunks.pop()
 
