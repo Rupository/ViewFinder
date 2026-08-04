@@ -113,13 +113,26 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       })
       return true
   }
-  if (message.type === 'open-visuals') {
+  if (message.type === 'open-hist-visuals') {
     const outlet = message.payload.outlet
     const tabId = sender.tab.id
 
     chrome.sidePanel.setOptions({
         tabId: tabId,
         path: `assets/html/sidepanel.html?outlet=${encodeURIComponent(outlet)}`,
+        enabled: true
+    })
+
+    chrome.sidePanel.open({ tabId: tabId })
+        .catch((error) => console.error("Error opening panel:", error))
+    }
+  if (message.type === 'open-curr-visuals') {
+    const tabId = sender.tab.id
+    chrome.storage.session.set({ curr_content : message.payload });
+
+    chrome.sidePanel.setOptions({
+        tabId: tabId,
+        path: `assets/html/sidepanel.html`,
         enabled: true
     })
 

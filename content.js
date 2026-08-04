@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener((message) => {
     }
 })
 
-function injectIcons(Div, circStance, sqrStance, mediaOutlet) {
+function injectIcons(Div, circStance, sqrStance, circSents, Title, mediaOutlet) {
     const miniDiv = document.createElement('div')
 
     miniDiv.style.position = "relative"
@@ -45,6 +45,16 @@ function injectIcons(Div, circStance, sqrStance, mediaOutlet) {
     circ.addEventListener('click', (e) => {
         e.stopPropagation() 
         e.preventDefault()
+
+        if (circStance != 'unknown'){
+            chrome.runtime.sendMessage({
+                type: 'open-curr-visuals',
+                payload: {
+                    title: Title,
+                    samples: circSents,
+                }
+            })
+        }
     })
     miniDiv.appendChild(circ)
 
@@ -67,12 +77,15 @@ function injectIcons(Div, circStance, sqrStance, mediaOutlet) {
         e.stopPropagation() 
         e.preventDefault()
         
-        chrome.runtime.sendMessage({
-            type: 'open-visuals',
-            payload: {
-                outlet: mediaOutlet,
-            }
-        })
+        if (sqrStance != 'unknown'){
+            chrome.runtime.sendMessage({
+                type: 'open-hist-visuals',
+                payload: {
+                    outlet: mediaOutlet,
+                }
+            })
+        }
+        
     })
 
     miniDiv.appendChild(sqr)
@@ -141,7 +154,8 @@ function processArticles() {
                     let articleData = response.data[title] || {}
                     let hist_est_stance = articleData.historical || "unknown"
                     let curr_est_stance = articleData.current || "unknown"
-                    injectIcons(mainDiv, curr_est_stance, hist_est_stance, outlet)
+                    let curr_est_sents = articleData.current_sents || []
+                    injectIcons(mainDiv, curr_est_stance, hist_est_stance, curr_est_sents, title, outlet)
                 }
             }) 
             hideLoadingOverlay()

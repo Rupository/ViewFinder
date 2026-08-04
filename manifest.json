@@ -1,7 +1,7 @@
 {
   "name": "ViewFinder",
   "description": "Find out how different news outlets report about the same event. Requires access to Google News stories.",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "manifest_version": 3,
   "action": {
     "default_title": "Click to Activate",
@@ -28,7 +28,7 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["scripting", "sidePanel", "tabs"],
+  "permissions": ["scripting", "sidePanel", "tabs", "storage"],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; frame-src 'self' https://viewfinder.medialens.dpdns.org/;"
   },
