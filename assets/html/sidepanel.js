@@ -18,8 +18,8 @@ function render(title, samples) {
     container.innerHTML = `<h3>${title}</h3>`;
     const COLOR_MAP = {pro: "#33cc33", neutral: "#ffcc00", anti: "#ff5050"};
     
-    for (const {sentence: [left, entity, right], stance, confidence_pct} of samples) {
-        const color = COLOR_MAP[stance];
+    for (const {sentence: [left, entity, right], tone, confidence} of samples) {
+        const color = COLOR_MAP[tone];
         const row = document.createElement('div');
         row.className = 'row';
         row.innerHTML = `
@@ -27,7 +27,7 @@ function render(title, samples) {
                 ${left} <b>${entity}</b> ${right}
             </div>
             <div class="meta">
-                <span>Political Tone: <b style="color: ${color}">${stance}</b></span>
+                <span>Political Tone: <b style="color: ${color}">${tone}</b></span>
                 <span class="pct">Confidence: ${confidence_pct}%</span>
             </div>
         `;
