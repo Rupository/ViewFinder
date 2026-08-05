@@ -10,14 +10,18 @@ body, html, iframe {
 }
 
 #samples {
+    display: none;
     padding: 16px;
     font-family: 'Quicksand', sans-serif;
+    height: 100vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    animation: fadeIn 0.4s ease-out;
 }
 
 #samples h3 {
     margin: 0 0 16px 0;
-    font-size: 1.1em;
-    text-align: center;
+    font-size: 1.5em;
 }
 
 .row {
@@ -28,15 +32,9 @@ body, html, iframe {
     background: #fafafa;
 }
 
-.pct {
-    opacity: 0.6;
-    font-size: 0.85em;
-}
-
 .sentence {
     font-size: 1.05em;
     margin-bottom: 8px;
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 .meta {
@@ -44,4 +42,9 @@ body, html, iframe {
     gap: 16px;
     font-size: 0.9em;
     color: #555;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
 }

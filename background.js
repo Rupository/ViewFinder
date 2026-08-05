@@ -128,11 +128,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
   if (message.type === 'open-curr-visuals') {
     const tabId = sender.tab.id
-    chrome.storage.session.set({ curr_content : message.payload });
+    const title = message.payload.title
+    chrome.storage.session.set({ curr_content : message.payload.samples });
 
     chrome.sidePanel.setOptions({
         tabId: tabId,
-        path: `assets/html/sidepanel.html`,
+        path: `assets/html/sidepanel.html?title=${encodeURIComponent(title)}`,
         enabled: true
     })
 
