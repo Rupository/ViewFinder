@@ -1,4 +1,9 @@
-const parser = new DOMParser();
+const parser = new DOMParser()
+let toneChoice = 'EST'
+chrome.storage.local.get('tone_choice', (data) => {
+    if (data.tone_choice) toneChoice = data.tone_choice
+    console.log(toneChoice)
+})
 
 const stance_to_colour = {
     "pro":"#33cc33",
@@ -132,6 +137,7 @@ function processArticles() {
         type: 'get-articles',
         payload: {
             stories: stories,
+            tone_choice: toneChoice
         }
     }, (response) => {
 

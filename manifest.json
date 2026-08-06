@@ -4,6 +4,7 @@
   "version": "0.1.6",
   "manifest_version": 3,
   "action": {
+    "default_popup": "assets/html/settings.html",
     "default_title": "Click to Activate",
     "default_icon": {
       "16": "assets/images/icon-16.png",

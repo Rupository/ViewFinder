@@ -1,23 +1,48 @@
+const VALID_URL = 'https://news.google.com/stories/'
+
+async function updateActionForTab(tabId) {
+  try {
+    const tab = await chrome.tabs.get(tabId)
+    const isValid = tab.url && tab.url.startsWith(VALID_URL)
+    
+    if (isValid) {
+      chrome.action.setPopup({ tabId, popup: '' })
+      chrome.action.setTitle({ tabId, title: 'Click to Analyze' })
+    } else {
+      chrome.action.setPopup({ tabId, popup: 'assets/html/settings.html' })
+      chrome.action.setTitle({ tabId, title: 'ViewFinder Settings' })
+    }
+  } catch (e) {
+    chrome.action.setPopup({ tabId, popup: 'assets/html/settings.html' })
+    chrome.action.setTitle({ tabId, title: 'ViewFinder Settings' })
+  }
+}
+
 // reload
 chrome.action.onClicked.addListener((tab) => {
-  if (!tab.url || !tab.url.startsWith('https://news.google.com/stories/')) {
-    console.log('Site not permitted!')
+  if (!tab.url || !tab.url.startsWith(VALID_URL)) {
+    console.log('Site not permitted for extraction!')
     return
   }
   chrome.tabs.reload(tab.id)
+  chrome.action.disable(tab.id)
   const listener = (id, info) => {
     if (id === tab.id && info.status === 'complete') {
-      chrome.tabs.onUpdated.removeListener(listener);
+      chrome.tabs.onUpdated.removeListener(listener)
+      chrome.action.enable(tab.id)
       chrome.scripting.executeScript({ target: { tabId: id }, files: ['content.js'] })
     }
   }
   chrome.tabs.onUpdated.addListener(listener)
+  chrome.sidePanel.close({ tabId: tab.id }).catch(() => {})
 })
 
-// query server
+// query server - AI agent, is there anything i need to change here?
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'get-articles') {
+    console.log(message.payload.tone_choice)
     const tabId = sender.tab.id
+    chrome.action.disable(tabId)
 
     const controller = new AbortController()
     let timeoutId
@@ -110,7 +135,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             error: `Disconnected -  ${error.message}` 
           })
         }
-      })
+      }).finally(() => chrome.action.enable(tabId))
       return true
   }
   if (message.type === 'open-hist-visuals') {
@@ -129,7 +154,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'open-curr-visuals') {
     const tabId = sender.tab.id
     const title = message.payload.title
-    chrome.storage.session.set({ curr_content : message.payload.samples });
+    chrome.storage.session.set({ curr_content : message.payload.samples })
 
     chrome.sidePanel.setOptions({
         tabId: tabId,
@@ -150,20 +175,25 @@ chrome.runtime.onInstalled.addListener(() => {
 async function updatePanelState(tabId) {
   try {
     const tab = await chrome.tabs.get(tabId);
-    const isAllowed = tab.url && tab.url.startsWith('https://news.google.com/stories/');
+    const isAllowed = tab.url && tab.url.startsWith(VALID_URL)
     if (!isAllowed) {
       await chrome.sidePanel.setOptions({
         tabId,
         enabled: false
-      });
+      })
     }
   } catch (error) {
   }
 }
 
-chrome.tabs.onActivated.addListener((activeInfo) => updatePanelState(activeInfo.tabId));
+chrome.tabs.onActivated.addListener((activeInfo) => {
+  updatePanelState(activeInfo.tabId)
+  updateActionForTab(activeInfo.tabId)
+})
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete' || changeInfo.url) {
-    updatePanelState(tabId);
+    updatePanelState(tabId)
+    updateActionForTab(tabId)
   }
 })
