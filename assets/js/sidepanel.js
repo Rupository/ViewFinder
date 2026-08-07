@@ -16,7 +16,16 @@ const outlet = params.get('outlet')
 
 function render(title, samples) {
     const container = document.getElementById('samples')
-    container.innerHTML = `<h3>${title}</h3>`
+    container.innerHTML = `
+    <h3>${title}</h3>
+    <br><br>
+    <div class="legend">
+      <span class="dot pro"></span> pro
+      <span class="dot neu"></span> neutral
+      <span class="dot anti"></span> anti
+    </div>
+    <br>
+    `
     const COLOR_MAP = {pro: "#33cc33", neutral: "#ffcc00", anti: "#ff5050"}
     
     for (const {sentence: [left, entity, right], tone, confidence, vector: [pro_pct, neu_pct, ant_pct]} of samples) {

@@ -27,7 +27,8 @@ body, html, iframe {
 .row {
     margin-bottom: 16px;
     padding: 12px;
-    border: 1px solid #e0e0e0;
+    border: 2px solid #000000;
+    box-shadow: 0 3px 2px -2px #555;
     border-radius: 6px;
     background: #fafafa;
 }
@@ -36,6 +37,28 @@ body, html, iframe {
     font-size: 1.05em;
     margin-bottom: 8px;
 }
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+  padding: 12px 16px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.95em;
+  color: #444;
+}
+
+.dot {
+  width: 25px;
+  height: 15px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.dot.pro   { background: #33cc33; }
+.dot.neu   { background: #ffcc00; }
+.dot.anti  { background: #ff5050; }
 
 .meta {
     display: flex;
