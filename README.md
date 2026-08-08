@@ -4,6 +4,7 @@ This plugin is being developed for the IndiaMediaLens Project: Targeted Sentimen
 
 It is supported by the Mphasis AI & Applied Tech Lab at Ashoka and the Vachani School of Advanced Computing.
 
+---
 ### Installation
 ---
 This extension is yet to be published to the Chrome Web Store. Once it is, it should be downloadable as any other chromium extension.
