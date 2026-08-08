@@ -1,10 +1,10 @@
-<img width="934" height="561" alt="image" src="https://github.com/user-attachments/assets/549395b2-d0d6-4e2f-b115-3e6b0c68787e" /># ViewFinder
+# ViewFinder
 
 This plugin is being developed for the IndiaMediaLens Project: Targeted Sentiment Analysis for Political Tone Identification in Indian News Media. 
 
 It is supported by the Mphasis AI & Applied Tech Lab at Ashoka and the Vachani School of Advanced Computing.
 
-# Installation
+### Installation
 This extension is yet to be published to the Chrome Web Store. Once it is, it should be downloadable as any other chromium extension.
 
 To download from this repository, proceed as follows:
