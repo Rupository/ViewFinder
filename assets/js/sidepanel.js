@@ -1,9 +1,13 @@
 const params = new URLSearchParams(window.location.search)
 const title = params.get('title')
 const outlet = params.get('outlet')
+chrome.storage.local.get('tone_choice', (data) => {
+    const toneChoice = data.tone_choice || 'EST'
+    console.log(toneChoice)
+
     if (outlet) {
         document.getElementById('nicegui-frame').src = 
-        `https://viewfinder.medialens.dpdns.org/ui/historical/visualization/${encodeURIComponent(outlet)}`
+            `https://viewfinder.medialens.dpdns.org/ui/historical/visualization/${encodeURIComponent(outlet)}/${encodeURIComponent(toneChoice)}`
     } else {
         document.getElementById('nicegui-frame').style.display = 'none'
         chrome.storage.session.get(['curr_content'], val => {
@@ -13,6 +17,7 @@ const outlet = params.get('outlet')
             chrome.storage.session.remove('curr_content')
         })
     }
+})
 
 function render(title, samples) {
     const container = document.getElementById('samples')
