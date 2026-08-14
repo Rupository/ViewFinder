@@ -197,3 +197,9 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     updateActionForTab(tabId)
   }
 })
+
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason === 'install') {
+    chrome.tabs.create({ url: 'assets/html/onboarding.html' })
+  }
+})
