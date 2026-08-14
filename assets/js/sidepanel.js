@@ -25,9 +25,9 @@ function render(title, samples) {
     <h3>${title}</h3>
     <br><br>
     <div class="legend">
-      <span class="dot pro"></span> pos
+      <span class="dot pro"></span> positive
       <span class="dot neu"></span> neutral
-      <span class="dot anti"></span> neg
+      <span class="dot anti"></span> negative
     </div>
     <br>
     `
@@ -38,9 +38,9 @@ function render(title, samples) {
 
         let displayTone = tone
         if (tone === "pro") {
-            displayTone = "pos"
+            displayTone = "positive"
         } else if (tone === "anti") {
-            displayTone = "neg"
+            displayTone = "negative"
         }
         
         const row = document.createElement('div')
