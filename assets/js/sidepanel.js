@@ -25,9 +25,9 @@ function render(title, samples) {
     <h3>${title}</h3>
     <br><br>
     <div class="legend">
-      <span class="dot pro"></span> pro
+      <span class="dot pro"></span> pos
       <span class="dot neu"></span> neutral
-      <span class="dot anti"></span> anti
+      <span class="dot anti"></span> neg
     </div>
     <br>
     `
@@ -35,6 +35,14 @@ function render(title, samples) {
     
     for (const {sentence: [left, entity, right], tone, confidence, vector: [pro_pct, neu_pct, ant_pct]} of samples) {
         const color = COLOR_MAP[tone]
+
+        let displayTone = tone
+        if (tone === "pro") {
+            displayTone = "pos"
+        } else if (tone === "anti") {
+            displayTone = "neg"
+        }
+        
         const row = document.createElement('div')
         row.className = 'row'
         row.innerHTML = `
@@ -42,9 +50,9 @@ function render(title, samples) {
                 ${left} <b style="color: ${color}">${entity}</b> ${right}
             </div>
             <div class="meta">
-                <span>[pro: ${pro_pct}%, neutral: ${neu_pct}%, anti: ${ant_pct}%]
+                <span>[pos: ${pro_pct}%, neutral: ${neu_pct}%, neg: ${ant_pct}%]
                 <br><br>
-                Political Tone: <b style="color: ${color}">${tone}</b> (confidence: ${confidence}%)
+                Political Tone: <b style="color: ${color}">${displayTone}</b> (confidence: ${confidence}%)
                 </span>
             </div>
         `
