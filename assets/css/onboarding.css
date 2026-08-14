@@ -2,8 +2,7 @@
 
 body {
     font-family: 'Quicksand', sans-serif;
-    width: 350px;
-    height: 200px;
+    font-size: medium;
     margin: 0 auto;
     text-align: center;
 }
@@ -12,20 +11,31 @@ h1 {
     text-align: center;
 }
 
+.section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+h2 {
+    text-align: left;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.content-block {
+    text-align: justify;
+    text-align-last: left;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
 #medialens_icon {
-    vertical-align: -50%;
+    vertical-align: -20%;
 }
 
-.radio-group {
-    display: inline-block;
-    text-align: left; 
-}
-
-input[type="radio"] {
-    vertical-align: middle;
-    margin: 0;
-}
-
-label {
-    vertical-align: middle;
+#circ, #sqr {
+    width: 20px;
+    height: 20px;
+    vertical-align: -20%;
 }

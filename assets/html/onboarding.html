@@ -1,16 +1,73 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>IndiaMediaLens ViewFinder</title>
+    <title>Onboarding</title>
     <link rel="stylesheet" href="../css/onboarding.css">
-  </head>
+    <base target="_blank">
+  <base target="_blank">
+</head>
   <body>
     <div class="onboarding-container">
-    <h1> <img src="../images/icon-48.png" id="medialens_icon"> &nbsp; Welcome to ViewFinder!</h1>
-    <br>
-      This plugin is being developed for the IndiaMediaLens Project:  A Media Monitoring Dashboard for India
-      It is supported by the Mphasis AI & Applied Tech Lab at Ashoka and the Vachani School of Advanced Computing.
+      <h1><img src="../images/icon-48.png" id="medialens_icon"> &nbsp; Welcome to ViewFinder!</h1>
 
+      <div class="section">
+        <h2>About ViewFinder</h2>
+        <div class="content-block">
+          We are working on a computational media monitoring framework for India, and the current version
+          of this tool demonstrates this framework in action. By scraping articles and applying language processing techniques, we arrive at the <b>political tone</b>
+          of an article.
+          <br><br>
+          We first identify entities belonging to <b>establishment</b> (EST) or <b>opposition</b> (OPP) alliances. 
+          EST (OPP) entities include people, parties, and organizations allied or affiliated with the 
+          ruling (opposition) coalition.
+          <br><br>
+          The political tone of a sentence describes the <b>sentiment of a sentence towards EST (OPP) entities</b> in
+          that sentence. We aggragate this across sentences in an article to arrive at the article's political tone.
+          We count the political tone of past articles over time for certain chosen outlets to arrive at 
+          an outlet level tone. 
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Getting Started</h2>
+        <div class="content-block">
+          Navigate to your extensions menu (the puzzle piece icon) on the toolbar and click ViewFinder. 
+          On most pages, this will display a popup menu. Here, you'll be able to choose whether to fetch political tone for EST entities or OPP entities.
+          This option can be changed.
+          <br><br>
+          After this, navigate to the 
+          <a href="https://news.google.com/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNRE55YXpBU0JXVnVMVWRDS0FBUAE?hl=en-IN&gl=IN&ceid=IN%3Aen">
+          India</a> topic in <a href="https://news.google.com">Google News</a>. Choose any political event from this list, and click <b>See more headlines and perspectives</b>. This should take you 
+          to a cluster of articles about the event.
+          <br><br>
+          Now, from the extensions menu, click ViewFinder again. This time, instead of the popup menu, you'll see a loading screen.
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Usage</h2>
+        <div class="content-block">
+          Once the page loads, you'll see a Circle <img src="../svgs/current_data_circle.svg" id="circ"> and a Square <img src="../svgs/historical_data_square.svg" id="sqr"> next to each article's outlet. 
+          <br><br>
+          The colour of the Circle represents the political tone of the <b>current article</b> (green: positive, yellow: neutral, red: negative).
+          On clicking the Circle, you will be able to view the sentence level political tone annotations for this article.
+          <br><br>
+          The colour of the Square represents the overall political tone of <b>the outlet</b> (green: positive, yellow: neutral, red: negative).
+          On clicking the Square, you will be able to interact with the counts of articles and their political tone for some time range, and how this evolves over time.
+          <br><br>
+          If either of these icons are gray, it means we were unable to collect data for that article/outlet.
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Feedback</h2>
+        <div class="content-block">
+          Please contact <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ritwikray2005@gmail.com&su=%5BIndiaMediaLens%20Feedback%5D%3A" target="_blank">
+          Rupsha Ray</a> for any feedback or suggestions.
+          In case you encounter any bugs/issues, you can report them
+          on our <a href="https://github.com/Rupository/ViewFinder">GitHub</a> repository.
+        </div>
+      </div>
     </div>
   </body>
 </html>
