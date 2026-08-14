@@ -10,10 +10,10 @@ It is supported by the Mphasis AI & Applied Tech Lab at Ashoka and the Vachani S
 This extension is yet to be published to the Chrome Web Store. Once it is, it can be installed as a standard chromium extension.
 
 To download from this repository, proceed as follows:
-  1. Press Download ZIP under the green `Code` tab in this repository.
+  1. Download the latest release source code (ZIP) by clicking [here](https://github.com/Rupository/ViewFinder/archive/refs/tags/v0.1.6.zip).
   
-  2. Once downloaded, extract the ZIP to a directory of your choice. You may delete the ZIP file after this.
+  3. Once downloaded, extract the ZIP to a directory of your choice. You may delete the ZIP file after this.
   
-  3. Now, navigate to `<your_chromium_browser_name>://extensions/` and enable developer mode.
+  4. Now, navigate to `<your_chromium_browser_name>://extensions/` and enable developer mode.
   
-  4. Click 'Load Unpacked' and navigate to the folder named `ViewFinder-main` saved in the earlier directory. Open this folder - this should load the extension to your chromium browser.
+  5. Click 'Load Unpacked' and navigate to the folder named `ViewFinder-main` saved in the earlier directory. Open this folder - this should load the extension to your chromium browser.
