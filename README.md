@@ -14,7 +14,8 @@ To download from this repository, proceed as follows:
   
   3. Once downloaded, extract the ZIP to a directory of your choice. You may delete the ZIP file after this.
   
-  4. Now, navigate to `chrome://extensions/` and enable developer mode (other chromium based outside of Chrome, such as Brave or Helium are also supported).
+  4. Now, navigate to `chrome://extensions/` and enable developer mode
+     (other chromium-based browsers outside of Chrome, such as Brave or Helium are also supported).
   
   6. Click 'Load Unpacked' and navigate to the folder named `ViewFinder-x.x.x` saved in the earlier directory. Open this folder - this should load the extension to your chromium browser.
 
