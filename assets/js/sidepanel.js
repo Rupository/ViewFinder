@@ -22,6 +22,7 @@ chrome.storage.local.get('tone_choice', (data) => {
 function render(title, samples) {
     const container = document.getElementById('samples')
     container.innerHTML = `
+    <br>
     <h3>${title}</h3>
     <br><br>
     <div class="legend">

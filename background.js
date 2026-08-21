@@ -4,14 +4,8 @@ async function updateActionForTab(tabId) {
   try {
     const tab = await chrome.tabs.get(tabId)
     const isValid = tab.url && tab.url.startsWith(VALID_URL)
-    
-    if (isValid) {
-      chrome.action.setPopup({ tabId, popup: '' })
-      chrome.action.setTitle({ tabId, title: 'Click to Analyze' })
-    } else {
-      chrome.action.setPopup({ tabId, popup: 'assets/html/settings.html' })
-      chrome.action.setTitle({ tabId, title: 'ViewFinder Settings' })
-    }
+    chrome.action.setPopup({ tabId, popup: 'assets/html/settings.html' })
+    chrome.action.setTitle({ tabId, title: isValid ? 'Ready to Fetch' : 'ViewFinder Settings' })
   } catch (e) {
     chrome.action.setPopup({ tabId, popup: 'assets/html/settings.html' })
     chrome.action.setTitle({ tabId, title: 'ViewFinder Settings' })
@@ -19,7 +13,7 @@ async function updateActionForTab(tabId) {
 }
 
 // reload
-chrome.action.onClicked.addListener((tab) => {
+function runAnalysis(tab) {
   if (!tab.url || !tab.url.startsWith(VALID_URL)) {
     console.log('Site not permitted for extraction!')
     return
@@ -35,10 +29,35 @@ chrome.action.onClicked.addListener((tab) => {
   }
   chrome.tabs.onUpdated.addListener(listener)
   chrome.sidePanel.close({ tabId: tab.id }).catch(() => {})
-})
+}
 
-// query server - AI agent, is there anything i need to change here?
+chrome.action.onClicked.addListener((tab) => {runAnalysis(tab)})
+
+
+/*chrome.action.onClicked.addListener((tab) => {
+  if (!tab.url || !tab.url.startsWith(VALID_URL)) {
+    console.log('Site not permitted for extraction!')
+    return
+  }
+  chrome.tabs.reload(tab.id)
+  chrome.action.disable(tab.id)
+  const listener = (id, info) => {
+    if (id === tab.id && info.status === 'complete') {
+      chrome.tabs.onUpdated.removeListener(listener)
+      chrome.action.enable(tab.id)
+      chrome.scripting.executeScript({ target: { tabId: id }, files: ['content.js'] })
+    }
+  }
+  chrome.tabs.onUpdated.addListener(listener)
+  chrome.sidePanel.close({ tabId: tab.id }).catch(() => {})
+})*/
+
+// query server
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'trigger-analysis') {
+    runAnalysis(message.payload)
+    return true
+  }
   if (message.type === 'get-articles') {
     console.log(message.payload.tone_choice)
     const tabId = sender.tab.id
