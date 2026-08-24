@@ -16,7 +16,7 @@ A detailed diagram of the interactions between components is presented below:
 This extension is yet to be published to the Chrome Web Store. Once it is, it can be installed as a standard chromium extension.
 
 To download from this repository, proceed as follows:
-  1. Download the latest release source code (ZIP) by clicking  [here](https://github.com/Rupository/ViewFinder/archive/refs/tags/v0.1.6.zip).
+  1. Download the latest release source code (ZIP) by clicking  [here](https://github.com/Rupository/ViewFinder/archive/refs/tags/v0.1.7.zip).
   
   3. Once downloaded, extract the ZIP to a directory of your choice. You may delete the ZIP file after this.
   
