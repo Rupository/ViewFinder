@@ -7,7 +7,7 @@ ViewFinder relies on two more components to function: [IndiaMediaLens-Capture](h
 
 A detailed diagram of the interactions between components is presented below:
 
-<img width="2220" height="1329" alt="image" src="https://github.com/user-attachments/assets/07ee8d67-d87a-4bf0-88b9-e21a3a2e2af4" />
+<img width="1076" height="642" alt="image" src="https://github.com/user-attachments/assets/38c9327f-8cfb-47cb-8959-87dddd0628f5" />
 
 
 ---
