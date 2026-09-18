@@ -16,10 +16,10 @@ A detailed diagram of the interactions between components is presented below:
 We currently support all Chromium-based browsers, such as Google Chrome, Helium, Edge, Brave and so on. Support for Firefox-based and WebKit-based browsers (like Safari) is planned in the near future.
 
 
-##### Quick Installation (Recommended)
+#### Quick Installation (Recommended)
 This extension can be installed directly from its [Chrome Web Store listing](https://chromewebstore.google.com/detail/mapdjnnflelpaofepmkfnacacnaieofo?utm_source=item-share-cb). 
 
-##### Install from Source
+#### Install from Source
 To install from this repository, proceed as follows:
   1. Download the latest release source code (ZIP) by clicking  [here](https://github.com/Rupository/ViewFinder/archive/refs/tags/v0.1.7.zip).
   
