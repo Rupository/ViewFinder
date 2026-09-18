@@ -1,6 +1,6 @@
 # IndiaMediaLens: ViewFinder
 
-This plugin is being developed for the IndiaMediaLens Project: A Media Monitoring Dashboard for India. 
+This plugin is being developed for the IndiaMediaLens Project: A Real-Time System for Monitoring Political Tone in Indian News Media.
 It is supported by the Mphasis AI & Applied Tech Lab at Ashoka and now, the Vachani School of Advanced Computing.
 
 ViewFinder relies on two more components to function: [IndiaMediaLens-Capture](https://github.com/Rupository/IndiaMediaLens-Capture) and [IndiaMediaLens-Server](https://github.com/Rupository/IndiaMediaLens-Server).
