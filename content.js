@@ -181,17 +181,59 @@ function processArticles() {
 async function showLoadingOverlay() {
     if (document.getElementById('extension-overlay-root')) return
     document.body.style.overflow = 'hidden'
-    const cssLink = document.createElement('link')
+    const cssLink = document.createElement('style')
     cssLink.rel = 'stylesheet'
-    cssLink.type = 'text/css'
     cssLink.id = 'extension-css-loader'
-    cssLink.href = chrome.runtime.getURL('assets/css/overlay.css')
+    cssLink.textContent = `
+                        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
+
+                        #extension-overlay-root {
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            width: 100vw;
+                            height: 100vh;
+                            gap: 40px;
+                            background-color: #ffffff;
+                            z-index: 500;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            font-family: 'Quicksand', sans-serif;
+                            color: #343434 !important;
+                            font-size: 15px;
+                            font-weight: 600;
+                            text-align: center;
+                        }
+
+                        /* HTML: <div class="loader"></div> */
+                        .loader {
+                        height: 4px;
+                        width: 130px;
+                        --c:no-repeat linear-gradient(#29ff3b 0 0);
+                        background: var(--c),var(--c),#b7ffab;
+                        background-size: 60% 100%;
+                        animation: l16 3s infinite;
+                        }
+                        @keyframes l16 {
+                        0%   {background-position:-150% 0,-150% 0}
+                        66%  {background-position: 250% 0,-150% 0}
+                        100% {background-position: 250% 0, 250% 0}
+                        }`
     document.head.appendChild(cssLink)
     const container = document.createElement('div')
-    const url = chrome.runtime.getURL('assets/html/overlay.html')
-    const response = await fetch(url)
-    const htmlText = await response.text()
-    container.innerHTML = htmlText
+    //const url = chrome.runtime.getURL('assets/html/overlay.html')
+    //const response = await fetch(url)
+    //const htmlText = await response.text()
+    container.innerHTML = `
+        <div id="extension-overlay-root">
+            <div class="loader"></div>
+            <div id="overlay-status">
+                Initializing
+            </div>
+        </div>
+    `
     document.body.appendChild(container)
 }
 
@@ -201,9 +243,16 @@ function finishLoading() {
     processArticles()
 }
 
+const isGoogleNews = () => location.href.startsWith('https://news.google.com/stories/')
+const isLocalMhtml = () => location.href.startsWith('file:///Users/rupsharray/Desktop/ICDM%20Local/')
+
+function isAllowedPage() {
+  return isGoogleNews() || isLocalMhtml()
+}
+
 const onMutation = () => {
     mo.disconnect()
-    if (location.href.startsWith('https://news.google.com/stories/')) {
+    if (isAllowedPage()) {
         observe()
         getStories()
         window.scrollTo(0, document.body.scrollHeight)
@@ -213,7 +262,7 @@ const onMutation = () => {
 }
 
 const observe = () => {
-    if (location.href.startsWith('https://news.google.com/stories/')) {
+    if (isAllowedPage()) {
         mo.observe(document, {
             subtree: true,
             childList: true,
@@ -223,7 +272,7 @@ const observe = () => {
 
 const mo = new MutationObserver(onMutation)
 
-if (location.href.startsWith('https://news.google.com/stories/')) {
+if (isAllowedPage()) {
     showLoadingOverlay()
     getStories()
     window.scrollTo(0, document.body.scrollHeight)

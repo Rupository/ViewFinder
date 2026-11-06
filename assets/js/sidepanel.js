@@ -7,7 +7,7 @@ chrome.storage.local.get('tone_choice', (data) => {
 
     if (outlet) {
         document.getElementById('nicegui-frame').src = 
-            `https://viewfinder.medialens.dpdns.org/ui/historical/visualization/${encodeURIComponent(outlet)}/${encodeURIComponent(toneChoice)}`
+            `http://localhost:5000/ui/historical/visualization/${encodeURIComponent(outlet)}/${encodeURIComponent(toneChoice)}`
     } else {
         document.getElementById('nicegui-frame').style.display = 'none'
         chrome.storage.session.get(['curr_content'], val => {

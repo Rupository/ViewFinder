@@ -1,9 +1,14 @@
 const VALID_URL = 'https://news.google.com/stories/'
+const LOCAL_URL_PREFIX = 'file:///Users/rupsharray/Desktop/ICDM%20Local/'
+
+function isAllowedUrl(url) {
+  return !!url && (url.startsWith(VALID_URL) || url.startsWith(LOCAL_URL_PREFIX))
+}
 
 async function updateActionForTab(tabId) {
   try {
     const tab = await chrome.tabs.get(tabId)
-    const isValid = tab.url && tab.url.startsWith(VALID_URL)
+    const isValid = tab.url && isAllowedUrl(tab.url)
     chrome.action.setPopup({ tabId, popup: 'assets/html/settings.html' })
     chrome.action.setTitle({ tabId, title: isValid ? 'Ready to Fetch' : 'ViewFinder Settings' })
   } catch (e) {
@@ -14,7 +19,7 @@ async function updateActionForTab(tabId) {
 
 // reload
 function runAnalysis(tab) {
-  if (!tab.url || !tab.url.startsWith(VALID_URL)) {
+  if (!tab.url || !isAllowedUrl(tab.url)) {
     console.log('Site not permitted for extraction!')
     return
   }
@@ -72,7 +77,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }, 5000)
     }
 
-    fetch('https://viewfinder.medialens.dpdns.org/api/v0/colour', {
+    fetch('http://localhost:5000/api/v0/colour', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -194,7 +199,7 @@ chrome.runtime.onInstalled.addListener(() => {
 async function updatePanelState(tabId) {
   try {
     const tab = await chrome.tabs.get(tabId);
-    const isAllowed = tab.url && tab.url.startsWith(VALID_URL)
+    const isAllowed = tab.url && isAllowedUrl(tab.url)
     if (!isAllowed) {
       await chrome.sidePanel.setOptions({
         tabId,

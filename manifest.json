@@ -1,5 +1,5 @@
 {
-  "name": "ViewFinder",
+  "name": "ViewFinder Localhost",
   "description": "Find out how different news outlets report about the same event. Requires access to Google News stories.",
   "version": "0.1.7",
   "manifest_version": 3,
@@ -24,19 +24,21 @@
   },
   "host_permissions": [
     "https://news.google.com/stories/*",
-    "https://viewfinder.medialens.dpdns.org/*" 
+    "file:///Users/rupsharray/Desktop/ICDM%20Local/*",
+    "http://localhost:5000/*",
+    "https://fonts.googleapis.com/*"
   ], 
   "background": {
     "service_worker": "background.js"
   },
   "permissions": ["scripting", "sidePanel", "tabs", "storage"],
   "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; frame-src 'self' https://viewfinder.medialens.dpdns.org/;"
+    "extension_pages": "script-src 'self'; object-src 'self'; frame-src 'self' http://localhost:5000/;"
   },
   "web_accessible_resources": [
     {
-      "resources": ["assets/html/overlay.html", "assets/css/overlay.css"],
-      "matches": ["https://news.google.com/*"],
+      "resources": ["assets/html/overlay.html", "assets/css/overlay.css", "content.js"],
+      "matches": ["https://news.google.com/*", "file:///*", "https://fonts.googleapis.com/*"],
       "use_dynamic_url": false
     }
   ]

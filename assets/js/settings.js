@@ -14,7 +14,8 @@ const btn = document.getElementById('analyze-btn')
 
 async function sync() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
-  btn.disabled = !tab?.url?.startsWith('https://news.google.com/stories/')
+  btn.disabled = !(tab?.url?.startsWith('https://news.google.com/stories/') ||
+                   tab?.url?.startsWith('file:///Users/rupsharray/Desktop/ICDM%20Local/'))
 }
 
 btn.addEventListener('click', async () => {
